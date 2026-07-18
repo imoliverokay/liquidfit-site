@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LiquidFit Preview Pack</title>
+<meta name="description" content="Install the LiquidFit preview pack: 27,000+ clothing preview images for the LiquidFit outfit studio.">
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+  @font-face { font-family: 'Open Runde'; src: url('fonts/OpenRunde-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+  @font-face { font-family: 'Open Runde'; src: url('fonts/OpenRunde-Medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+  @font-face { font-family: 'Open Runde'; src: url('fonts/OpenRunde-Semibold.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+  @font-face { font-family: 'Open Runde'; src: url('fonts/OpenRunde-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+
+  :root {
+    --bg: #0b1120;
+    --panel: rgba(52, 70, 102, 0.42);
+    --panel-line: rgba(210, 230, 255, 0.16);
+    --accent: #5aa0ff;
+    --accent-hi: #96c8ff;
+    --text: #f0f5fc;
+    --dim: #96a5b9;
+    --good: #78e696;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Open Runde', 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ---------- animated liquid background ---------- */
+  .bg {
+    position: fixed; inset: 0; z-index: -1; overflow: hidden;
+    background:
+      radial-gradient(ellipse 120% 60% at 50% -10%, rgba(90, 160, 255, 0.10), transparent 60%),
+      var(--bg);
+  }
+  .blob {
+    position: absolute; border-radius: 50%;
+    filter: blur(90px); opacity: 0.55;
+    will-change: transform;
+  }
+  .blob.b1 {
+    width: 55vw; height: 55vw; min-width: 500px; min-height: 500px;
+    left: -12vw; top: -18vh;
+    background: radial-gradient(circle, rgba(90, 160, 255, 0.20), transparent 65%);
+    animation: drift1 46s ease-in-out infinite alternate;
+  }
+  .blob.b2 {
+    width: 48vw; height: 48vw; min-width: 420px; min-height: 420px;
+    right: -15vw; top: 22vh;
+    background: radial-gradient(circle, rgba(70, 110, 200, 0.18), transparent 65%);
+    animation: drift2 58s ease-in-out infinite alternate;
+  }
+  .blob.b3 {
+    width: 42vw; height: 42vw; min-width: 380px; min-height: 380px;
+    left: 18vw; bottom: -22vh;
+    background: radial-gradient(circle, rgba(150, 200, 255, 0.10), transparent 65%);
+    animation: drift3 52s ease-in-out infinite alternate;
+  }
+  @keyframes drift1 { from { transform: translate(0, 0) scale(1); } to { transform: translate(9vw, 7vh) scale(1.12); } }
+  @keyframes drift2 { from { transform: translate(0, 0) scale(1.08); } to { transform: translate(-8vw, -6vh) scale(0.95); } }
+  @keyframes drift3 { from { transform: translate(0, 0) scale(0.96); } to { transform: translate(6vw, -8vh) scale(1.1); } }
+  .bg::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 90% 80% at 50% 50%, transparent 55%, rgba(5, 9, 18, 0.55));
+    pointer-events: none;
+  }
+
+  /* ---------- layout ---------- */
+  .wrap { max-width: 780px; margin: 0 auto; padding: 0 24px 90px; }
+
+  /* ---------- hero ---------- */
+  .hero { text-align: center; padding: 72px 0 30px; }
+  .hero .logo {
+    width: 190px; height: 190px; margin: 0 auto 6px; position: relative;
+    animation: floaty 6.5s ease-in-out infinite;
+  }
+  .hero .logo::before {
+    content: ""; position: absolute; inset: -34%;
+    background: radial-gradient(circle, rgba(90, 160, 255, 0.28), transparent 62%);
+    filter: blur(24px); z-index: -1;
+    animation: pulse 6.5s ease-in-out infinite;
+  }
+  .hero .logo img { width: 100%; height: 100%; object-fit: contain; }
+  @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+  @keyframes pulse  { 0%, 100% { opacity: 0.75; } 50% { opacity: 1; } }
+
+  h1 {
+    font-size: clamp(30px, 6vw, 44px); font-weight: 700;
+    letter-spacing: 0.34em; text-indent: 0.34em;
+    margin-bottom: 4px;
+  }
+  .sub { color: var(--dim); font-size: 16px; margin-bottom: 22px; }
+  .sub .by { color: var(--accent-hi); }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 16px; border-radius: 999px;
+    background: rgba(90, 160, 255, 0.10);
+    border: 1px solid rgba(90, 160, 255, 0.30);
+    color: var(--accent-hi); font-size: 13.5px; font-weight: 500;
+    margin-bottom: 30px;
+  }
+  .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); animation: pulse 2.6s ease-in-out infinite; }
+
+  /* ---------- download button ---------- */
+  .dl {
+    display: inline-block; text-decoration: none; position: relative;
+    padding: 17px 44px; border-radius: 14px;
+    font-size: 17.5px; font-weight: 600; color: #fff;
+    background: linear-gradient(160deg, rgba(90, 160, 255, 0.92), rgba(62, 118, 210, 0.92));
+    border: 1px solid rgba(150, 200, 255, 0.55);
+    box-shadow: 0 8px 32px rgba(90, 160, 255, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease, filter 0.28s ease;
+  }
+  .dl:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 14px 44px rgba(90, 160, 255, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    filter: brightness(1.06);
+  }
+  .dl:active { transform: translateY(-1px) scale(0.99); transition-duration: 0.08s; }
+  .dl-meta { color: var(--dim); font-size: 13.5px; margin-top: 14px; }
+  .dl-meta strong { color: var(--text); font-weight: 500; }
+
+  /* ---------- section headers ---------- */
+  .sec-title { font-size: 22px; font-weight: 600; margin: 64px 0 6px; text-align: center; }
+  .sec-sub { color: var(--dim); font-size: 14.5px; text-align: center; margin-bottom: 26px; }
+
+  /* ---------- step cards ---------- */
+  .step {
+    display: flex; gap: 20px; align-items: flex-start;
+    background: var(--panel);
+    border: 1px solid var(--panel-line);
+    border-radius: 16px; padding: 22px 24px; margin-bottom: 14px;
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 6px 26px rgba(4, 8, 18, 0.35), inset 0 1px 0 rgba(210, 230, 255, 0.08);
+    transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.32s ease, box-shadow 0.32s ease;
+  }
+  .step:hover {
+    transform: translateY(-3px);
+    border-color: rgba(150, 200, 255, 0.36);
+    box-shadow: 0 12px 36px rgba(4, 8, 18, 0.45), 0 0 24px rgba(90, 160, 255, 0.10), inset 0 1px 0 rgba(210, 230, 255, 0.12);
+  }
+  .num {
+    flex: none; width: 42px; height: 42px; border-radius: 12px;
+    display: grid; place-items: center;
+    font-size: 18px; font-weight: 700; color: var(--accent-hi);
+    background: rgba(90, 160, 255, 0.12);
+    border: 1px solid rgba(90, 160, 255, 0.32);
+  }
+  .step h3 { font-size: 16.5px; font-weight: 600; margin-bottom: 3px; }
+  .step p { color: var(--dim); font-size: 14.5px; }
+  .step p strong { color: var(--text); font-weight: 500; }
+
+  /* ---------- code chip + copy ---------- */
+  .chip-row { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .chip {
+    font-family: Consolas, 'Cascadia Mono', monospace; font-size: 13.5px;
+    background: rgba(10, 16, 30, 0.6); color: var(--accent-hi);
+    padding: 6px 12px; border-radius: 8px;
+    border: 1px solid rgba(150, 200, 255, 0.18);
+  }
+  .copy {
+    cursor: pointer; border: 1px solid rgba(150, 200, 255, 0.28);
+    background: rgba(90, 160, 255, 0.10); color: var(--accent-hi);
+    font-family: inherit; font-size: 12.5px; font-weight: 500;
+    padding: 6px 13px; border-radius: 8px;
+    transition: background 0.25s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), color 0.25s ease, border-color 0.25s ease;
+  }
+  .copy:hover { background: rgba(90, 160, 255, 0.22); transform: translateY(-1px); }
+  .copy.done { background: rgba(120, 230, 150, 0.14); border-color: rgba(120, 230, 150, 0.4); color: var(--good); }
+
+  /* ---------- callout ---------- */
+  .callout {
+    background: rgba(240, 180, 90, 0.07);
+    border: 1px solid rgba(240, 180, 90, 0.25);
+    border-radius: 14px; padding: 16px 20px; margin-top: 20px;
+    font-size: 14px; color: var(--dim);
+  }
+  .callout strong { color: #ecc789; font-weight: 600; }
+
+  .note {
+    text-align: center; color: var(--dim); font-size: 13.5px; margin-top: 26px;
+  }
+  .note a { color: var(--accent-hi); text-decoration: none; border-bottom: 1px solid rgba(150, 200, 255, 0.3); transition: border-color 0.2s ease, color 0.2s ease; }
+  .note a:hover { color: #fff; border-color: #fff; }
+
+  footer {
+    text-align: center; color: var(--dim); font-size: 13px;
+    padding: 34px 0 10px; opacity: 0.8;
+  }
+  footer .l { color: var(--accent-hi); }
+
+  /* ---------- scroll reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal.d1 { transition-delay: 0.07s; } .reveal.d2 { transition-delay: 0.14s; }
+  .reveal.d3 { transition-delay: 0.21s; } .reveal.d4 { transition-delay: 0.28s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition-duration: 0.01s !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
+  @media (max-width: 560px) {
+    .hero { padding-top: 48px; }
+    .hero .logo { width: 150px; height: 150px; }
+    .step { padding: 18px; gap: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="logo reveal"><img src="logo.png" alt="LiquidFit logo" width="190" height="190"></div>
+    <h1 class="reveal d1">LIQUIDFIT</h1>
+    <p class="sub reveal d1">outfit studio &nbsp;|&nbsp; <span class="by">by oli</span></p>
+    <div class="reveal d2"><span class="pill"><span class="dot"></span>Preview Pack &middot; 27,000+ clothing images</span></div>
+    <div class="reveal d3">
+      <a class="dl" href="https://github.com/imoliverokay/LiquidFit/releases/latest/download/LiquidFit_PreviewPack.zip">Download the Preview Pack</a>
+      <p class="dl-meta"><strong>LiquidFit_PreviewPack.zip</strong> &middot; about 354 MB &middot; one-time download</p>
+    </div>
+  </header>
+
+  <h2 class="sec-title reveal">Install in four steps</h2>
+  <p class="sec-sub reveal">Takes about a minute once the download finishes.</p>
+
+  <div class="step reveal d1">
+    <div class="num">1</div>
+    <div>
+      <h3>Download the pack</h3>
+      <p>Use the button above. It is one zip with every clothing preview image, the item name data, and the icons.</p>
+    </div>
+  </div>
+
+  <div class="step reveal d2">
+    <div class="num">2</div>
+    <div>
+      <h3>Open your Cherax folder</h3>
+      <p>That is the folder containing <strong>Lua</strong> and <strong>Cache</strong>. For most people it is here:</p>
+      <div class="chip-row">
+        <span class="chip" id="path">Documents\Cherax</span>
+        <button class="copy" data-copy="path">copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="step reveal d3">
+    <div class="num">3</div>
+    <div>
+      <h3>Extract the zip into that folder</h3>
+      <p>Right click the zip, choose <strong>Extract All</strong>, and set the destination to your Cherax folder. If Windows asks about merging folders or replacing files, choose <strong>yes to all</strong>.</p>
+    </div>
+  </div>
+
+  <div class="step reveal d4">
+    <div class="num">4</div>
+    <div>
+      <h3>Reload LiquidFit</h3>
+      <p>Reload the script in the Lua tab (or restart Cherax). Previews appear instantly for every category.</p>
+    </div>
+  </div>
+
+  <div class="callout reveal">
+    <strong>Ended up with a LiquidFit_PreviewPack folder?</strong> Your extractor made a wrapper folder. Open it, then move the inner <span class="chip" style="padding:2px 8px;">Cache</span> and <span class="chip" style="padding:2px 8px;">Lua</span> folders up into the Cherax folder so they merge with the existing ones.
+  </div>
+
+  <p class="note reveal">
+    Quick check: <span class="chip" style="padding:2px 8px;">Cherax\Cache\LiquidFit\thumbs</span> should contain thousands of images.<br><br>
+    The pack is optional. LiquidFit works without it, items just show as tiles without pictures.<br>
+    Get the script itself on the <a href="https://cherax.menu/scripts/204" target="_blank" rel="noopener">Cherax script hub</a>.
+  </p>
+
+  <footer class="reveal">
+    <span class="l">LiquidFit</span> &middot; by oli
+  </footer>
+
+</div>
+
+<script>
+  // scroll reveal with stagger
+  const io = new IntersectionObserver(function(entries) {
+    for (const e of entries) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(function(el) { io.observe(el); });
+
+  // copy buttons with animated feedback
+  document.querySelectorAll('.copy').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const text = document.getElementById(btn.dataset.copy).textContent;
+      navigator.clipboard.writeText(text).then(function() {
+        btn.textContent = 'copied';
+        btn.classList.add('done');
+        setTimeout(function() { btn.textContent = 'copy'; btn.classList.remove('done'); }, 1800);
+      });
+    });
+  });
+
+  // gentle mouse parallax on the background blobs (lerped, respects reduced motion)
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const blobs = document.querySelectorAll('.blob');
+    let tx = 0, ty = 0, cx = 0, cy = 0;
+    window.addEventListener('pointermove', function(e) {
+      tx = (e.clientX / window.innerWidth - 0.5);
+      ty = (e.clientY / window.innerHeight - 0.5);
+    }, { passive: true });
+    (function tick() {
+      cx += (tx - cx) * 0.04;
+      cy += (ty - cy) * 0.04;
+      blobs.forEach(function(b, i) {
+        const depth = (i + 1) * 12;
+        b.style.marginLeft = (cx * depth) + 'px';
+        b.style.marginTop = (cy * depth) + 'px';
+      });
+      requestAnimationFrame(tick);
+    })();
+  }
+</script>
+
+</body>
+</html>
